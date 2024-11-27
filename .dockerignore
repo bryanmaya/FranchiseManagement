@@ -1,0 +1,9 @@
+# Ignorar carpetas de compilación y configuración local
+/build/
+/.gradle/
+/.idea/
+/.vscode/
+*.iml
+*.log
+*.tmp
+*.swp
