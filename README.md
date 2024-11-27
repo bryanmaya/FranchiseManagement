@@ -48,6 +48,85 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 
 3. La API estará disponible en `http://localhost:8080`.
 
+## Uso de Docker
+
+### Crear el archivo Dockerfile
+
+En la raíz del proyecto, crea un archivo llamado `Dockerfile` con el siguiente contenido:
+
+```dockerfile
+# Usar una imagen base para construir la aplicación
+FROM openjdk:17-jdk-slim as builder
+
+WORKDIR /app
+
+COPY ../../../Downloads .
+
+RUN ./gradlew bootJar
+
+# Usar una imagen más ligera para ejecutar la aplicación
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+### Construcción de la imagen Docker
+
+1. Abre una terminal en la raíz del proyecto.
+2. Ejecuta el siguiente comando para construir la imagen:
+
+```bash
+docker build -t franchise-management-app .
+```
+
+### Ejecutar el contenedor Docker
+
+Una vez construida la imagen, ejecuta el siguiente comando para iniciar el contenedor:
+
+```bash
+docker run -p 8080:8080 franchise-management-app
+```
+
+La API estará disponible en `http://localhost:8080`.
+
+### Uso de Docker Compose (opcional)
+
+Si deseas incluir un servicio de base de datos como MySQL, crea un archivo `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/franchises_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: franchises_db
+    ports:
+      - "3306:3306"
+```
+
+Para iniciar ambos servicios, ejecuta:
+
+```bash
+docker-compose up --build
+```
+
 ## Endpoints Principales
 
 ### Franquicias
