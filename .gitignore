@@ -1,0 +1,43 @@
+# Excluir carpetas de compilación y configuración de Gradle
+/build/
+/.gradle/
+
+# Excluir archivos de configuración específicos del entorno
+/.idea/
+/*.iml
+/.vscode/
+
+# Excluir archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Excluir archivos de logs
+*.log
+
+# Excluir archivos temporales y de cache
+*.class
+*.war
+*.ear
+*.jar
+*.tmp
+
+# Excluir configuraciones locales
+*.swp
+*.swo
+
+# Excluir carpetas de salida de pruebas y cobertura
+/test-output/
+/target/
+/out/
+/coverage/
+
+# Excluir configuraciones específicas de IntelliJ IDEA y Eclipse
+/.idea/
+/*.iml
+/.classpath
+/.project
+/.settings/
+
+# Excluir dependencias generadas por Gradle
+/.gradle/
+/build/
